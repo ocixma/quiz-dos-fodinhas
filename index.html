@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qual protagonista de anime você seria?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cor-fundo: #1e1e2f;
+      --cor-card: #292940;
+      --cor-botao: #ff6b81;
+      --cor-texto: #f1f1f1;
+      --cor-destaque: #ffd369;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      background-color: var(--cor-card);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--cor-destaque);
+      margin-bottom: 20px;
+    }
+
+    .pergunta {
+      font-size: 18px;
+      margin: 20px 0;
+    }
+
+    .opcoes button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      background-color: var(--cor-botao);
+      color: var(--cor-texto);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .opcoes button:hover {
+      background-color: var(--cor-destaque);
+      color: var(--cor-card);
+    }
+
+    .resultado {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Qual protagonista de anime você seria?</h1>
+    <div class="pergunta" id="pergunta"></div>
+    <div class="opcoes" id="opcoes"></div>
+    <div class="resultado" id="resultado"></div>
+  </div>
+
+  <script>
+    const perguntas = [
+      {
+        texto: "Qual dessas qualidades te define melhor?",
+        opcoes: [
+          { texto: "Determinação", personagem: "Naruto" },
+          { texto: "Espírito livre", personagem: "Luffy" },
+          { texto: "Inteligência", personagem: "Light" },
+          { texto: "Força e otimismo", personagem: "Goku" }
+        ]
+      },
+      {
+        texto: "Qual seu maior objetivo?",
+        opcoes: [
+          { texto: "Provar meu valor", personagem: "Naruto" },
+          { texto: "Viajar o mundo com amigos", personagem: "Luffy" },
+          { texto: "Mudar o mundo", personagem: "Light" },
+          { texto: "Superar meus limites", personagem: "Goku" }
+        ]
+      },
+      {
+        texto: "Como você resolve um problema?",
+        opcoes: [
+          { texto: "Com coragem e garra", personagem: "Naruto" },
+          { texto: "Do meu jeito, improvisando", personagem: "Luffy" },
+          { texto: "Pensando friamente", personagem: "Light" },
+          { texto: "Com esforço e confiança", personagem: "Goku" }
+        ]
+      }
+    ];
+
+    const resultadoFinal = {
+      Naruto: "Você é como o Naruto: determinado, explosivo, mas com um coração gigante.",
+      Luffy: "Você é como o Luffy: livre, leal e cheio de alegria.",
+      Light: "Você é como o Light: estrategista, inteligente e misterioso.",
+      Goku: "Você é como o Goku: forte, justo e cheio de energia positiva!"
+    };
+
+    let perguntaAtual = 0;
+    const pontuacao = {
+      Naruto: 0,
+      Luffy: 0,
+      Light: 0,
+      Goku: 0
+    };
+
+    const perguntaElem = document.getElementById("pergunta");
+    const opcoesElem = document.getElementById("opcoes");
+    const resultadoElem = document.getElementById("resultado");
+
+    function mostrarPergunta() {
+      if (perguntaAtual >= perguntas.length) {
+        mostrarResultado();
+        return;
+      }
+
+      const pergunta = perguntas[perguntaAtual];
+      perguntaElem.textContent = pergunta.texto;
+      opcoesElem.innerHTML = "";
+
+      pergunta.opcoes.forEach(opcao => {
+        const btn = document.createElement("button");
+        btn.textContent = opcao.texto;
+        btn.onclick = () => {
+          pontuacao[opcao.personagem]++;
+          perguntaAtual++;
+          mostrarPergunta();
+        };
+        opcoesElem.appendChild(btn);
+      });
+    }
+
+    function mostrarResultado() {
+      const personagemFinal = Object.entries(pontuacao).sort((a, b) => b[1] - a[1])[0][0];
+      perguntaElem.textContent = "Resultado:";
+      opcoesElem.innerHTML = "";
+      resultadoElem.textContent = resultadoFinal[personagemFinal];
+    }
+
+    mostrarPergunta();
+  </script>
+</body>
+</html>
